@@ -37,10 +37,11 @@ class WordlGuess():
         by some clue we received since the last time we checked
         """
         corpus_length = len(self.corpus)
-        self.corpus = [word for word in self.corpus if self.check_word_legality(word)]
+        self.corpus = np.array([word for word in self.corpus if self.check_word_legality(word)])
         if self.verbose:
             print(f'Corpus length went from {corpus_length} to {len(self.corpus)}')
-        self.update_freq(self)
+        self.update_freq()
+        self.sort_corpus()
 
     def check_word_legality(self, word):
         """ Input:
@@ -108,10 +109,11 @@ class WordlGuess():
             self.wrong_location.pop(letter)
         self.right_location[letter] = position
 
-    def grey(self, letter):
+    def grey(self, letters):
         """ Input:
-                letter: string - a letter
+                letter: string - a letter or string
         This function assumes that we guessed a letter and were told that it does not
         appear in the word in any location
         """
-        self.eliminated_letters.add(letter)
+        for letter in letters:
+            self.eliminated_letters.add(letter)
