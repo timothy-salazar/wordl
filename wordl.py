@@ -62,6 +62,8 @@ class WordlGuess():
         # check to see whether the word contains any letters in a position where we already
         # know that letter does not appear
         for letter, position_list in self.wrong_location.items():
+            if letter not in word:
+                return False
             for position in position_list:
                 if word[position] == letter:
                     return False
